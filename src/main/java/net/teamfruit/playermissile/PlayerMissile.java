@@ -99,6 +99,7 @@ public final class PlayerMissile extends JavaPlugin implements Listener {
         arrow.getPersistentDataContainer().set(boolKey, PersistentDataType.BYTE, (byte) 1);
 
         // Mount
+        player.getPassengers().forEach(e -> e.removePassenger(player));
         projectile.addPassenger(player);
     }
 
