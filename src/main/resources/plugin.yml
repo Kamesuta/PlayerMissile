@@ -1,0 +1,10 @@
+name: PlayerMissile
+version: ${project.version}
+main: net.teamfruit.playermissile.PlayerMissile
+api-version: 1.15
+authors: [Kamesuta]
+
+permissions:
+  playermissile.use:
+    description: You can use item
+    default: true

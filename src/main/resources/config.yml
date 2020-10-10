@@ -1,0 +1,23 @@
+message:
+  nopermission: §cNo Permission
+item:
+  ==: org.bukkit.inventory.ItemStack
+  v: 2230
+  type: TIPPED_ARROW
+  meta:
+    ==: ItemMeta
+    meta-type: POTION
+    display-name: §ePlayer Missile
+    lore:
+      - §7Ride on an arrow and fly!
+    enchants:
+      ARROW_INFINITE: 1
+    ItemFlags:
+      - HIDE_ENCHANTS
+      - HIDE_ATTRIBUTES
+      - HIDE_POTION_EFFECTS
+recipe:
+  - ARROW
+  - ENDER_PEARL
+  - ENDER_PEARL
+  - ENDER_PEARL
