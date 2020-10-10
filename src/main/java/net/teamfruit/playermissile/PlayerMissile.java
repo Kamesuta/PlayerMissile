@@ -55,6 +55,9 @@ public final class PlayerMissile extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
+        // Recipe
+        getServer().removeRecipe(arrowKey);
     }
 
     @EventHandler
