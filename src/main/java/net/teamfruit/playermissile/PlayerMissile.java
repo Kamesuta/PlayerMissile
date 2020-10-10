@@ -7,12 +7,14 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,9 +93,35 @@ public final class PlayerMissile extends JavaPlugin implements Listener {
 
         // Arrow Entity Settings
         arrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
+        arrow.getPersistentDataContainer().set(boolKey, PersistentDataType.BYTE, (byte) 1);
 
         // Mount
         projectile.addPassenger(player);
+    }
+
+    @EventHandler
+    public void onArrowEnd(ProjectileHitEvent event) {
+        // Arrow Entity Validation
+        Entity projectile = event.getEntity();
+        if (projectile.getType() != EntityType.ARROW)
+            return;
+        if (!(projectile instanceof Arrow))
+            return;
+        Arrow arrow = (Arrow) projectile;
+
+        // Source Entity Validation
+        ProjectileSource source = arrow.getShooter();
+        if (!(source instanceof Player))
+            return;
+        Player player = (Player) source;
+
+        // Arrow Entity Validation
+        PersistentDataContainer persistent = arrow.getPersistentDataContainer();
+        if (!persistent.has(boolKey, PersistentDataType.BYTE) || persistent.get(boolKey, PersistentDataType.BYTE) != 1)
+            return;
+
+        // Dismount
+        projectile.removePassenger(player);
     }
 
 }
