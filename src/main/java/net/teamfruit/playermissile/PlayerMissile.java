@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class PlayerMissile extends JavaPlugin implements Listener {
@@ -94,12 +95,19 @@ public final class PlayerMissile extends JavaPlugin implements Listener {
             return;
         }
 
+        // Infinity Use
+        if (!player.hasPermission("playermissile.infinity") && player.getVehicle() != null) {
+            player.sendActionBar(getConfig().getString("message.noinfpermission"));
+            event.setCancelled(true);
+            return;
+        }
+
         // Arrow Entity Settings
         arrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
         arrow.getPersistentDataContainer().set(boolKey, PersistentDataType.BYTE, (byte) 1);
 
         // Mount
-        player.getPassengers().forEach(e -> e.removePassenger(player));
+        Optional.ofNullable(player.getVehicle()).ifPresent(e -> e.removePassenger(player));
         projectile.addPassenger(player);
     }
 

@@ -8,3 +8,6 @@ permissions:
   playermissile.use:
     description: You can use item
     default: true
+  playermissile.infinity:
+    description: You can use item on missile
+    default: false
